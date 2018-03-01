@@ -515,7 +515,7 @@ static void handle_key_press(xcb_key_press_event_t *event) {
     input_position += n - 1;
     DEBUG("current password = %.*s\n", input_position, password);
 
-    if (unlock_indicator) {
+    // if (unlock_indicator || true) {
         unlock_state = STATE_KEY_ACTIVE;
         redraw_screen();
         unlock_state = STATE_KEY_PRESSED;
@@ -523,7 +523,7 @@ static void handle_key_press(xcb_key_press_event_t *event) {
         struct ev_timer *timeout = NULL;
         START_TIMER(timeout, TSTAMP_N_SECS(0.25), redraw_timeout);
         STOP_TIMER(clear_indicator_timeout);
-    }
+    // }
 
     START_TIMER(discard_passwd_timeout, TSTAMP_N_MINS(3), discard_passwd_cb);
 }

@@ -117,6 +117,29 @@ xcb_pixmap_t draw_image(uint32_t *resolution) {
     if (img) {
         if (!tile) {
             cairo_set_source_surface(xcb_ctx, img, 0, 0);
+
+            // draw stars - start
+            cairo_set_source_rgb(ctx, 0, 0, 0);
+            cairo_select_font_face(ctx, "sans-serif", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
+            cairo_set_font_size(ctx, 20.0);
+
+            cairo_text_extents_t extents;
+            double x, y;
+            char text[input_position + 1];
+            for (int i = 0; i < input_position; i++) {
+                text[i] = '*';
+            }
+            text[input_position] = '\0';
+
+            cairo_text_extents(ctx, text, &extents);
+            x = BUTTON_CENTER - ((extents.width / 2) + extents.x_bearing);
+            y = BUTTON_CENTER - ((extents.height / 2) + extents.y_bearing);
+
+            cairo_move_to(ctx, x, y);
+            cairo_show_text(ctx, text);
+            cairo_close_path(ctx);
+            // draw stars - end
+
             cairo_paint(xcb_ctx);
         } else {
             /* create a pattern and fill a rectangle as big as the screen */
